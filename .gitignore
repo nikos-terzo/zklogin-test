@@ -1,0 +1,5 @@
+
+# After runing login_url and logging in, store JWT_TOKEN there.
+src/priv_const.ts
+
+node_modules

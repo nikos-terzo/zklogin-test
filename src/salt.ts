@@ -1,15 +1,28 @@
+
 export async function getSalt(jwtToken: string): Promise<string> {
+
     const response = await fetch('http://salt.api-devnet.mystenlabs.com/get_salt', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'token': jwtToken
+            token: jwtToken
         })
     });
 
-    const json_resp = await response.json();
-    return json_resp['salt'];
+    if (!response.ok) {
+        if (response.status === 422) {
+            // Handle 422 validation errors
+            const errorData = await response.text(); // Parse error response
+            console.error('Validation Errors:', errorData);
+            // You can display error messages to the user here
+        } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    }
+
+    const responseJson = await response.json();
+    return responseJson["salt"]
 }
 

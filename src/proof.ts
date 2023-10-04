@@ -1,9 +1,11 @@
+import { PublicKey } from "@mysten/sui.js/cryptography";
 import { toBigIntBE } from "bigint-buffer";
 
-export async function getProof(jwt_token: string, publicKey: Uint8Array, maxEpoch: number, randomness: number, salt: string) {
+export async function getProof(jwt_token: string, publicKey: PublicKey, maxEpoch: number, randomness: string, salt: string) {
     const extendedEphemeralPublicKey = toBigIntBE(
-        Buffer.from(publicKey),
+        Buffer.from(publicKey.toSuiBytes()),
     ).toString();
+
     const url = 'https://prover.mystenlabs.com/v1';
     const data = {
         method: 'POST',
@@ -15,7 +17,7 @@ export async function getProof(jwt_token: string, publicKey: Uint8Array, maxEpoc
             extendedEphemeralPublicKey,
             maxEpoch,
             jwtRandomness: randomness,
-            salt: salt,
+            salt,
             keyClaimName: 'sub'
         })
     };

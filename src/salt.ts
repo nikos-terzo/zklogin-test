@@ -1,7 +1,8 @@
+// import { JWT_TOKEN } from "./priv_const";
 
 export async function getSalt(jwtToken: string): Promise<string> {
 
-    const response = await fetch('http://salt.api-devnet.mystenlabs.com/get_salt', {
+    const response = await fetch('https://salt.api.mystenlabs.com/get_salt', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -25,4 +26,6 @@ export async function getSalt(jwtToken: string): Promise<string> {
     const responseJson = await response.json();
     return responseJson["salt"]
 }
+
+// getSalt(JWT_TOKEN);
 

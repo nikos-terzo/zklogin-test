@@ -2,6 +2,7 @@ import { generateNonce, generateRandomness } from '@mysten/zklogin';
 import { EPH_KEYPAIR, MAX_EPOCH, REDIRECT_URI } from './consts';
 import { JWT_RANDOMNESS } from './priv_const';
 
+
 export function getOAuthUrl(redirect_uri: string, maxEpoch: number) {
 
     // Use const ephemeralKeyPair for reproducibility
@@ -15,17 +16,15 @@ export function getOAuthUrl(redirect_uri: string, maxEpoch: number) {
         state: new URLSearchParams({
             redirect_uri: redirect_uri
         }).toString(),
-        client_id: '25769832374-famecqrhe2gkebt5fvqms2263046lj96.apps.googleusercontent.com',
+        client_id: '595966210064-3nnnqvmaelqnqsmq448kv05po362smt2.apps.googleusercontent.com',
         redirect_uri: 'https://zklogin-dev-redirect.vercel.app/api/auth',
         response_type: 'id_token',
-        scope: 'openid email profile',
+        scope: 'openid',
         nonce: nonce,
     });
 
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
-
     return {
-        url,
+        url:`https://accounts.google.com/o/oauth2/v2/auth?${params}`,
         jwtRandomness: jwtRandomness.toString()
     };
 }
@@ -34,3 +33,4 @@ export function getOAuthUrl(redirect_uri: string, maxEpoch: number) {
 // Note that the REDIRECT_URI in this case will go to a ERR_CONNECTION_REFUSED
 // After visiting this link jwt will be available on the url fragment.
 console.log(getOAuthUrl(REDIRECT_URI, MAX_EPOCH));
+
